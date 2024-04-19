@@ -1,0 +1,43 @@
+networks:
+  azship-network:
+    driver: bridge
+
+services:
+  azshipsystem:
+    image: maven:3.9.6-eclipse-temurin-17
+    container_name: azshipsystem
+    restart: always
+    working_dir: /home/azshipsystem
+    env_file:
+      - ./azshipsystem.env
+    ports:
+      - 8080:8080
+    volumes:
+      - ../:/home/azshipsystem/:rw
+    command: mvn spring-boot:run
+    networks:
+      - azship-network
+
+  mongo:
+    image: mongo
+    container_name: azship-mongo
+    restart: always
+    env_file:
+      - ./mongo.env
+    ports:
+      - 27017:27017
+    networks:
+      - azship-network
+
+  mongo-express:
+    image: mongo-express
+    container_name: azship-mongo-ex
+    restart: always
+    ports:
+      - 8081:8081
+    env_file:
+      - ./mongo-express.env
+    networks:
+      - azship-network
+    depends_on:
+      - mongo
