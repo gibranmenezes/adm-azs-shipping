@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,8 +30,11 @@ public class ShippingServiceImp implements ShippingService {
 
     private final ShippingRepository shippingRepository;
     private final UserRepository userRepository;
-    private final List<CreateShippingValidator> createValidators;
-    private final List<UpdatingShippingValidator> updatingValidators;
+
+    @Autowired
+    private List<CreateShippingValidator> createValidators;
+    @Autowired
+    private List<UpdatingShippingValidator> updatingValidators;
 
 
     @Override
